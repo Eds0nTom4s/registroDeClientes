@@ -1,16 +1,22 @@
-FROM ubuntu:latest AS build
+# Estágio de construção
+FROM maven:3.8-openjdk-17 AS build
 
-RUN apt-get update
-RUN apt-get install openjdk-17-jdk -y
+WORKDIR /app
+
+# Copiar o código da aplicação
 COPY . .
 
-RUN apt-get install maven -y
+# Construir o projeto
 RUN mvn clean install -DskipTests
 
+# Estágio de execução
 FROM openjdk:17-jdk-slim
 
-EXPOSE 8080
+# Expor a porta usada pela aplicação
+EXPOSE 80
 
-COPY --from=build /target/deploy_render=1.0.0.jar app.jar
+# Copiar o JAR construído para o contêiner
+COPY --from=build /app/target/GestaoDeClienteApp-0.0.1-SNAPSHOT.jar /app/app.jar
 
-ENTRYPOINT [ "java","-jar", "app.jar" ]
+# Definir o ponto de entrada
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
