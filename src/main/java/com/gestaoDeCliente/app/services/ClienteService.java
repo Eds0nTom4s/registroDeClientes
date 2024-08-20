@@ -59,10 +59,18 @@ public class ClienteService {
 	public Cliente editarCliente(Long id, Cliente clienteAtualizado) {
         Cliente cliente = clienteRepo.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
-        
+        Optional<Atividade> atividadeOptional = atividadeRepo.findById(cliente.getAtividade().getId());
+        Atividade atividade = new Atividade();
+        if(atividadeOptional.isPresent()) {
+        	atividade = atividadeOptional.get();
+        }else {
+        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Atividade com id: " + "Não encontrado");
+        }
+        atividade.setDescricao(clienteAtualizado.getAtividade().getDescricao());
+        atividadeRepo.save(atividade);
         cliente.setNome(clienteAtualizado.getNome());
         cliente.setCapitalSocial(clienteAtualizado.getCapitalSocial());
-        cliente.setAtividade(clienteAtualizado.getAtividade());
+        cliente.setAtividade(atividade);
         return clienteRepo.save(cliente);
     }
 }

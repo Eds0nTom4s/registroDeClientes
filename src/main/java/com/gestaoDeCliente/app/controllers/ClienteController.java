@@ -31,6 +31,7 @@ public class ClienteController {
 	public List<Cliente> listarClientes(){
 		return clienteService.listarClientes();
 	}
+	
 	@GetMapping("/{id}")
 	public Cliente buscarPorId(@PathVariable Long id) {
 		return clienteService.buscarPorId(id);
@@ -39,18 +40,25 @@ public class ClienteController {
 	@PostMapping
 	public ResponseEntity<Cliente> criarCliente(@RequestBody ClienteAtividadeDTO clienteAtividadeDTO) {
 		Cliente cliente = new Cliente();
-		Atividade atividade = new Atividade(null,clienteAtividadeDTO.getAtividade());
+		var atividade = new Atividade(null,clienteAtividadeDTO.getAtividade());
 		BeanUtils.copyProperties(clienteAtividadeDTO, cliente);
-		System.out.print(cliente.toString());
 		return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.salvarCliente(cliente,atividade));
 	}
+	
 	@PutMapping("/{id}")
-	public Cliente atualizarCliente(@PathVariable Long id, @RequestBody Cliente cliente) {
-		return clienteService.editarCliente(id, cliente);
+	public ResponseEntity<Cliente> atualizarCliente(@PathVariable Long id, 
+			@RequestBody ClienteAtividadeDTO clienteAtividadeDTO) {
+		
+		Cliente cliente = new Cliente();
+		var atividade = new Atividade(null,clienteAtividadeDTO.getAtividade());
+		BeanUtils.copyProperties(clienteAtividadeDTO, cliente);
+		cliente.setAtividade(atividade);
+		return ResponseEntity.status(HttpStatus.OK).body(clienteService.editarCliente(id, cliente));
 	}
 	
 	@DeleteMapping("/{id}")
 	public void excluirCliente(@PathVariable Long id) {
 		clienteService.excluirCliente(id);
 	}
+	
 }
