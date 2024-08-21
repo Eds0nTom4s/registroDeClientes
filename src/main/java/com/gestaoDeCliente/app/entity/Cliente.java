@@ -1,7 +1,13 @@
 package com.gestaoDeCliente.app.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
+
+import org.springframework.format.annotation.NumberFormat;
+import org.springframework.format.annotation.NumberFormat.Style;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,12 +21,14 @@ import jakarta.persistence.TemporalType;
 
 @Entity
 @Table(name="TB_CLIENTE")
-public class Cliente {
-	
+public class Cliente{
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "###0.00")
 	private Double capitalSocial;
 	
 	@Temporal(TemporalType.DATE)
