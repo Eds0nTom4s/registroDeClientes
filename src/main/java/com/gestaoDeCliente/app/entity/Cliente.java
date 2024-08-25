@@ -1,11 +1,7 @@
 package com.gestaoDeCliente.app.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
-
-import org.springframework.format.annotation.NumberFormat;
-import org.springframework.format.annotation.NumberFormat.Style;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
