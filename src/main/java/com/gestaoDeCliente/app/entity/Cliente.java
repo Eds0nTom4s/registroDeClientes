@@ -1,7 +1,9 @@
 package com.gestaoDeCliente.app.entity;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -10,7 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -30,9 +33,13 @@ public class Cliente{
 	@Temporal(TemporalType.DATE)
 	private Date dataDeRegistro;
 	
-	@ManyToOne
-    @JoinColumn(name = "atividade_id", nullable = false)
-	private Atividade atividade;
+	@ManyToMany
+    @JoinTable(
+        name = "TB_CLIENTE_ATIVIDADE",
+        joinColumns = @JoinColumn(name = "cliente_id"),
+        inverseJoinColumns = @JoinColumn(name = "atividade_id")
+    )
+	private Set<Atividade> atividades = new HashSet<>(); 
 	
 	public Cliente() {
 	}
@@ -40,19 +47,16 @@ public class Cliente{
 	public Cliente(String nome, Double capitalSocial,Atividade atividade) {
 		this.nome = nome;
 		this.capitalSocial = capitalSocial;
-		this.atividade = atividade;
+		this.atividades.add(atividade);
 	}
 
 	public Long getId() {
 		return id;
 	}
-	
-	public Atividade getAtividade() {
-		return atividade;
-	}
+
 
 	public void setAtividade(Atividade atividade) {
-		this.atividade = atividade;
+		this.atividades.add(atividade);
 	}
 
 	public void setId(Long id) {

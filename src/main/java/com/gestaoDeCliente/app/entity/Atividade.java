@@ -1,13 +1,13 @@
 package com.gestaoDeCliente.app.entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,8 +19,8 @@ public class Atividade {
 	
 	private String descricao;
 	
-	@OneToMany(mappedBy = "atividade", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Cliente> cliente;
+	@ManyToMany(mappedBy = "atividades")
+	private Set<Cliente> cliente = new HashSet<>();
 	
 	public Atividade() {
 		// TODO Auto-generated constructor stub
