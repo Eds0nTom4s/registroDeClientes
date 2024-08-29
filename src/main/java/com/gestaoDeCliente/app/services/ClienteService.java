@@ -1,6 +1,5 @@
 package com.gestaoDeCliente.app.services;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.gestaoDeCliente.app.entity.Atividade;
 import com.gestaoDeCliente.app.entity.Cliente;
+import com.gestaoDeCliente.app.exceptions.AtividadeNotFoundException;
 import com.gestaoDeCliente.app.repository.AtividadeRepository;
 import com.gestaoDeCliente.app.repository.ClienteRepository;
 
@@ -23,17 +23,15 @@ public class ClienteService {
 	@Autowired
 	private AtividadeRepository atividadeRepo;
 	
-	public Cliente salvarCliente(Cliente cliente, Atividade atividade){
-		
-		atividadeRepo.save(atividade);
-		cliente.setDataDeRegistro(new Date());
-		//Verifica se atividade ja esta salva no banco
-		if(atividade.getId() == null) {
-			cliente.setAtividade(atividade);
+	public Cliente salvarCliente(Cliente cliente, Long atividadeId){
+		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
+		if(!atividadeOptional.isPresent()) {
+			throw new AtividadeNotFoundException("A Atividade com o ID: " +atividadeId+ " não foi encontrada"); 
+			
+			//ResponseStatusException(HttpStatus.NOT_FOUND,"O Atividade com o ID: "+atividadeId+" não foi encontrado");
 		}
-		//Associamos o cliente e atividade
-		cliente.setAtividade(atividade);
-		
+		var atividade = atividadeOptional.get();
+		cliente.addAtividade(atividade);
 		return clienteRepo.save(cliente);
 	}
 
@@ -56,21 +54,4 @@ public class ClienteService {
 		clienteRepo.deleteById(id);
 	}
 	
-	public Cliente editarCliente(Long id, Cliente clienteAtualizado) {
-        Cliente cliente = clienteRepo.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente não encontrado"));
-        Optional<Atividade> atividadeOptional = atividadeRepo.findById(cliente.getAtividade().getId());
-        Atividade atividade = new Atividade();
-        if(atividadeOptional.isPresent()) {
-        	atividade = atividadeOptional.get();
-        }else {
-        	throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Atividade com id: " + "Não encontrado");
-        }
-        atividade.setDescricao(clienteAtualizado.getAtividade().getDescricao());
-        atividadeRepo.save(atividade);
-        cliente.setNome(clienteAtualizado.getNome());
-        cliente.setCapitalSocial(clienteAtualizado.getCapitalSocial());
-        cliente.setAtividade(atividade);
-        return clienteRepo.save(cliente);
-    }
 }

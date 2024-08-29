@@ -4,19 +4,22 @@ public class ClienteAtividadeDTO {
 
 	private String nome;
 	private Double capitalSocial;
-	private String Atividade;
-	
+	private Long atividadeId;
 	
 	public ClienteAtividadeDTO() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ClienteAtividadeDTO(String nome, Double capitalSocial, String atividade) {
-		super();
-		this.nome = nome;
-		this.capitalSocial = capitalSocial;
-		Atividade = atividade;
+
+	public Long getAtividadeId() {
+		return atividadeId;
 	}
+
+
+	public void setAtividadeId(Long atividadeId) {
+		this.atividadeId = atividadeId;
+	}
+
 
 	public String getNome() {
 		return nome;
@@ -34,11 +37,4 @@ public class ClienteAtividadeDTO {
 		this.capitalSocial = capitalSocial;
 	}
 
-	public String getAtividade() {
-		return Atividade;
-	}
-
-	public void setAtividade(String atividade) {
-		Atividade = atividade;
-	}
 }

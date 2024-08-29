@@ -20,7 +20,7 @@ public class Atividade {
 	private String descricao;
 	
 	@ManyToMany(mappedBy = "atividades")
-	private Set<Cliente> cliente = new HashSet<>();
+	private Set<Cliente> clientes = new HashSet<>();
 	
 	public Atividade() {
 		// TODO Auto-generated constructor stub
@@ -46,6 +46,14 @@ public class Atividade {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	
+	public Set<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void addCliente(Cliente cliente) {
+		this.clientes.add(cliente);
 	}
 
 	@Override

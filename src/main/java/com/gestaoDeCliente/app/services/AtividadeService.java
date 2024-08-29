@@ -12,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 import com.gestaoDeCliente.app.entity.Atividade;
 import com.gestaoDeCliente.app.repository.AtividadeRepository;
 
+import io.micrometer.common.util.StringUtils;
+
 @Service
 public class AtividadeService {
 	
@@ -20,10 +22,21 @@ public class AtividadeService {
 	
 	@GetMapping
 	public Atividade salvarAtividades(Atividade atividade){
+		
+		if(StringUtils.isBlank(atividade.getDescricao())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Descrição não pode estar vazio");
+		}
+		
+		if(atividadeRepo.existsByDescricaoIgnoreCase(atividade.getDescricao())) {
+			throw new ResponseStatusException(HttpStatus.CONFLICT,"Existe atividade com o mesmo Nome");
+		}
 		return atividadeRepo.save(atividade);
 	}
 	
-	@GetMapping
+	 public List<Atividade> buscarPorDescricao(String descricao) {
+	        return atividadeRepo.findByDescricao(descricao);
+	    }
+	
 	public List<Atividade> listarAtividades(){
 		return atividadeRepo.findAll();
 	}

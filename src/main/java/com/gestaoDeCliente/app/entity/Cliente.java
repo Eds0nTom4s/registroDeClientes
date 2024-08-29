@@ -54,11 +54,14 @@ public class Cliente{
 		return id;
 	}
 
-
-	public void setAtividade(Atividade atividade) {
+	public void addAtividade(Atividade atividade) {
 		this.atividades.add(atividade);
+		
+		atividade.getClientes().add(this);
 	}
-
+	public Set<Atividade> getAtividades(){
+		return atividades;
+	}
 	public void setId(Long id) {
 		this.id = id;
 	}
