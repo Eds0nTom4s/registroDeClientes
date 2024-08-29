@@ -3,6 +3,8 @@ package com.gestaoDeCliente.app.entity;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public class Atividade {
 	private String descricao;
 	
 	@ManyToMany(mappedBy = "atividades")
+	@JsonIgnore
 	private Set<Cliente> clientes = new HashSet<>();
 	
 	public Atividade() {

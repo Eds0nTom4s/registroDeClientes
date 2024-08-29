@@ -1,5 +1,6 @@
 package com.gestaoDeCliente.app.services;
 
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,7 +31,11 @@ public class ClienteService {
 			
 			//ResponseStatusException(HttpStatus.NOT_FOUND,"O Atividade com o ID: "+atividadeId+" não foi encontrado");
 		}
+		if(clienteRepo.existsByNomeIgnoreCase(cliente.getNome())){
+			throw new ResponseStatusException(HttpStatus.CONFLICT,"Existe cliente com o mesmo Nome");
+		}
 		var atividade = atividadeOptional.get();
+		cliente.setDataDeRegistro();
 		cliente.addAtividade(atividade);
 		return clienteRepo.save(cliente);
 	}

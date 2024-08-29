@@ -1,5 +1,6 @@
 package com.gestaoDeCliente.app.entity;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -86,8 +87,8 @@ public class Cliente{
 		return dataDeRegistro;
 	}
 
-	public void setDataDeRegistro(Date dataDeRegistro) {
-		this.dataDeRegistro = dataDeRegistro;
+	public void setDataDeRegistro() {
+		 	this.dataDeRegistro = new Date();
 	}
 
 	@Override
