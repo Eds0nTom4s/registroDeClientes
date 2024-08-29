@@ -72,7 +72,7 @@ public class ClienteController {
 	    return ResponseEntity.ok(clienteAtualizado);
 	}
  
-	@DeleteMapping("/{clienteId}/atividades/{atividadeId}")
+	@DeleteMapping("/{clienteId}/atividades/rem/{atividadeId}")
     public ResponseEntity<String> removerAtividade(
             @PathVariable Long clienteId, 
             @PathVariable Long atividadeId) {
