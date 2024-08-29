@@ -24,6 +24,59 @@ public class ClienteService {
 	@Autowired
 	private AtividadeRepository atividadeRepo;
 	
+	
+	public Cliente adicionarAtividade(Long clienteId, Long atividadeId) {
+		Optional<Cliente> clienteOptional = clienteRepo.findById(clienteId);
+		
+		if(!clienteOptional.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente com ID: " + clienteId + " não encontrado.");
+		}
+		var cliente = clienteOptional.get();
+		
+		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
+		
+		if(!atividadeOptional.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Atividade com ID: " + atividadeId + " não encontrado.");
+		}
+		
+		var atividade = atividadeOptional.get();
+		
+		if(!cliente.getAtividades().contains(atividade)) {
+			cliente.addAtividade(atividade);
+		}
+		return clienteRepo.save(cliente);
+	}
+	
+	public void removerAtividadeDoCliente(Long clienteId, Long atividadeId) {
+		Optional<Cliente> clienteOptional = clienteRepo.findById(clienteId);
+		
+		if(!clienteOptional.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente com ID: " + clienteId + " não encontrado.");
+		}
+		var cliente = clienteOptional.get();
+		
+		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
+		
+		if(!atividadeOptional.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Atividade com ID: " + atividadeId + " não encontrado.");
+		}
+		
+		var atividade = atividadeOptional.get();
+		
+		if(cliente.getAtividades().size() <= 1) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O cliente deve ter pelo menos uma atividade associada");
+		}
+		
+		if(cliente.getAtividades().contains(atividade)) {
+			cliente.getAtividades().remove(atividade);
+			clienteRepo.save(cliente);
+			
+		}else {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A atividade não está associada a este cliente");
+		}
+		
+	}
+	
 	public Cliente salvarCliente(Cliente cliente, Long atividadeId){
 		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
 		if(!atividadeOptional.isPresent()) {
