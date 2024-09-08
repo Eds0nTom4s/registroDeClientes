@@ -1,6 +1,5 @@
 package com.gestaoDeCliente.app.entity;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
@@ -43,6 +42,7 @@ public class Cliente{
 	private Set<Atividade> atividades = new HashSet<>(); 
 	
 	public Cliente() {
+		
 	}
 
 	public Cliente(String nome, Double capitalSocial,Atividade atividade) {

@@ -27,14 +27,17 @@ public class ClienteService {
 	
 	public Cliente adicionarAtividade(Long clienteId, Long atividadeId) {
 		Optional<Cliente> clienteOptional = clienteRepo.findById(clienteId);
-		
+		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
+	
 		if(!clienteOptional.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Cliente com ID: " + clienteId + " não encontrado.");
 		}
+		
 		var cliente = clienteOptional.get();
 		
-		Optional<Atividade> atividadeOptional = atividadeRepo.findById(atividadeId);
-		
+		 if (cliente.getAtividades().contains(atividadeOptional.get())) {
+	            throw new ResponseStatusException(HttpStatus.CONFLICT, "A atividade já está associada ao cliente");
+	        }
 		if(!atividadeOptional.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Atividade com ID: " + atividadeId + " não encontrado.");
 		}
@@ -90,6 +93,7 @@ public class ClienteService {
 		var atividade = atividadeOptional.get();
 		cliente.setDataDeRegistro();
 		cliente.addAtividade(atividade);
+		
 		return clienteRepo.save(cliente);
 	}
 

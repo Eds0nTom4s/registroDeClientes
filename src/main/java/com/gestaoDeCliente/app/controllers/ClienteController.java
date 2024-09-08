@@ -64,7 +64,7 @@ public class ClienteController {
 		return ResponseEntity.status(HttpStatus.OK).body(clienteService.editarCliente(id, cliente));
 	}
 	*/
-	@PatchMapping("/{clienteId}/atividades/add/{atividadeId}")
+	@PostMapping("/{clienteId}/atividades/add/{atividadeId}")
 	public ResponseEntity<Cliente> adicionarAtividadeAoCliente(
 	        @PathVariable Long clienteId, 
 	        @PathVariable Long atividadeId) {

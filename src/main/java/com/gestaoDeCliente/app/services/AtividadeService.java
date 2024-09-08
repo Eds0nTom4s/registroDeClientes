@@ -27,7 +27,6 @@ public class AtividadeService {
 	@Autowired
 	private ClienteRepository clienteRepo;
 	
-	@GetMapping
 	public Atividade salvarAtividades(Atividade atividade){
 		
 		if(StringUtils.isBlank(atividade.getDescricao())) {
@@ -70,13 +69,9 @@ public class AtividadeService {
 		for(Cliente cliente: clientes) {
 			cliente.getAtividades().remove(atividade);
 			clienteRepo.save(cliente);
-			
 		}
 		
 		atividadeRepo.delete(atividade);
-		
-		
-		
 		
 		if (!atividadeRepo.existsById(id)) {
 	        throw new ResponseStatusException(HttpStatus.NO_CONTENT,"atividade com ID " + id + " não encontrado.");
