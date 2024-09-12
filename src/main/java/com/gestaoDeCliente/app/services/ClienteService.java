@@ -49,7 +49,18 @@ public class ClienteService {
 		}
 		return clienteRepo.save(cliente);
 	}
-	
+	public Cliente editarCliente(Long id, Cliente clienteAtualizado) {
+        // Busca o cliente existente
+        Cliente clienteExistente = buscarPorId(id);
+
+        // Atualiza os campos necessários do cliente, exceto as atividades
+        clienteExistente.setNome(clienteAtualizado.getNome());
+        clienteExistente.setCapitalSocial(clienteAtualizado.getCapitalSocial());
+        // Adicione outros campos que você deseja atualizar, exceto atividades
+
+        // Salva o cliente atualizado
+        return clienteRepo.save(clienteExistente);
+    }
 	public void removerAtividadeDoCliente(Long clienteId, Long atividadeId) {
 		Optional<Cliente> clienteOptional = clienteRepo.findById(clienteId);
 		
