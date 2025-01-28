@@ -34,35 +34,26 @@ public class Atividade {
 		this.id = id;
 		this.descricao = descricao;
 	}
-
 	public Long getId() {
 		return id;
 	}
-
 	public void setId(Long id) {
 		this.id = id;
 	}
-
 	public String getDescricao() {
 		return descricao;
 	}
-
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	
 	public Set<Cliente> getClientes() {
 		return clientes;
 	}
-
 	public void addCliente(Cliente cliente) {
 		this.clientes.add(cliente);
 	}
-
 	@Override
 	public String toString() {
 		return "Atividade [id=" + id + ", descricao=" + descricao + "]";
 	}
-	
-	
 }

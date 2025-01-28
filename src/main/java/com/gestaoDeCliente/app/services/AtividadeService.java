@@ -7,15 +7,13 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.server.ResponseStatusException;
-
 import com.gestaoDeCliente.app.entity.Atividade;
 import com.gestaoDeCliente.app.entity.Cliente;
 import com.gestaoDeCliente.app.exceptions.AtividadeNotFoundException;
 import com.gestaoDeCliente.app.repository.AtividadeRepository;
 import com.gestaoDeCliente.app.repository.ClienteRepository;
-
+	
 import io.micrometer.common.util.StringUtils;
 
 @Service
@@ -26,7 +24,7 @@ public class AtividadeService {
 	
 	@Autowired
 	private ClienteRepository clienteRepo;
-	
+		
 	public Atividade salvarAtividades(Atividade atividade){
 		
 		if(StringUtils.isBlank(atividade.getDescricao())) {

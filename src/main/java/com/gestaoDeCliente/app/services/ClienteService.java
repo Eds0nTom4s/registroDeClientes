@@ -56,9 +56,8 @@ public class ClienteService {
         // Atualiza os campos necessários do cliente, exceto as atividades
         clienteExistente.setNome(clienteAtualizado.getNome());
         clienteExistente.setCapitalSocial(clienteAtualizado.getCapitalSocial());
-        // Adicione outros campos que você deseja atualizar, exceto atividades
 
-        // Salva o cliente atualizado
+        
         return clienteRepo.save(clienteExistente);
     }
 	public void removerAtividadeDoCliente(Long clienteId, Long atividadeId) {

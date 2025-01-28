@@ -20,6 +20,4 @@ public class AtividadeDTO {
 		this.descricao = descricao;
 	}
 	
-	
-	
 }
